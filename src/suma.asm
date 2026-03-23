@@ -12,6 +12,6 @@ _start:
 	int	0x80        	; llamada al sistema - fin de programa
 
 section	.data
-    msg	db  'abcdefghijklmnopqrstuvwxyz0123456789LOL',0xa,0 
+    msg	db  'Hola mundo',0xa,0 
 
 
