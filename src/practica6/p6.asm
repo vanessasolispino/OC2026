@@ -6,6 +6,8 @@ section	.text
 	
 _start:                   
 
+    call getch
+    call itoa
     mov edx,ncad
     call puts
 
@@ -32,7 +34,7 @@ _start:
         dec cx
     .ciclo: 
         call getch
-        cmp al,'b'
+        cmp al,127
         jne .guardar
         call borrar
         jmp .ciclo
@@ -60,6 +62,23 @@ _start:
         call putchar   
         pop ax
         ret 
+
+    itoa:
+        push bx
+        mov bl,100
+        mov ah,0
+        div bl
+        mov bx,ax
+        add al,'0'
+        call putchar
+        mov al,ah
+        add al,'0'
+        call putchar
+
+
+
+        pop bx
+        ret
 section	.data
     ncad db 0xa,'Cadena: ',0
     nlin db 0xa
