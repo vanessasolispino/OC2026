@@ -5,13 +5,64 @@ section	.text
 	global _start       ;referencia para inicio de programa
 	
 _start:                   
-	mov edx, msg		; edx = dirección de la cadena msg
-	call puts			; imprime cadena msg terminada en valor nulo (0)
+
+    mov edx,ncad
+    call puts
+
+    
+
+    mov bx,word[len]
+    mov edx,cad
+    call capturar
+    mov al,[nlin]
+    call putchar
+    call puts
+
+    mov al,[nlin]
+    call putchar
+    call putchar
 
 	mov	eax, 1	    	; seleccionar llamada al sistema para fin de programa
 	int	0x80        	; llamada al sistema - fin de programa
 
-section	.data
-    msg	db  'abcdefghijklmnopqrstuvwxyz0123456789',0xa,0 
+    capturar:
+        push edx
+        push cx
+        mov cx,bx
+        dec cx
+    .ciclo: 
+        call getch
+        cmp al,'b'
+        jne .guardar
+        call borrar
+        jmp .ciclo
+       .guardar:
+        call putchar
+        mov [edx],al
+        cmp al,0xa
+        je .salir
+        inc edx
+        loop .ciclo
 
+        .salir:
+        mov byte[edx],0
+        pop cx
+        pop edx
+        ret
+
+    borrar:
+        push ax 
+        mov al,0x8
+        call putchar    
+        mov al,' '
+        call putchar
+        mov al,0x8
+        call putchar   
+        pop ax
+        ret 
+section	.data
+    ncad db 0xa,'Cadena: ',0
+    nlin db 0xa
+    len db 64
+    cad	times 64 db 0
 
