@@ -34,7 +34,7 @@ _start:
         dec cx
     .ciclo: 
         call getch
-        cmp al,127
+        cmp al,0x7f
         jne .guardar
         call borrar
         jmp .ciclo
